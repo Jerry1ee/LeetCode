@@ -1,6 +1,6 @@
 package Q3无重复字符的最长子串;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
@@ -28,29 +28,20 @@ import java.util.ArrayList;
  */
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        ArrayList list = new ArrayList<Character>();
+        int res = 0;
+        Map<Character,Integer> map = new HashMap<Character,Integer>();
 
-        int max = 0;
-        for(int i= 0 ;i<s.length();i++)
-        {
-
-            if(!list.contains(s.charAt(i)))
-            {
-                list.add(s.charAt(i));
-                max= Math.max(max,list.size());
+        int start = 0;
+        for(int end = 0;end<s.length();end++){
+            Character tmp = s.charAt(end);
+            if(map.containsKey(tmp)){
+                start = Math.max(start,map.get(tmp));
             }
-            else
-            {
-                while(list.contains(s.charAt(i)))
-                {
-                    list.remove(0);
-                }
-                list.add(s.charAt(i));
-                max= Math.max(max,list.size());
-            }
-
+            res = Math.max(res,end-start+1);
+            //记录如果当前字符重复了，去掉该字符后的开始位置
+            map.put(tmp,end+1);
         }
-
-        return max;
+        return res;
     }
+
 }
